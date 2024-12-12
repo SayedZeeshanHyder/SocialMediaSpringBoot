@@ -7,6 +7,8 @@ import com.socialmedia.smapp.Service.PostEntityService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequestMapping("post")
 @RestController
 public class PostController {
@@ -35,6 +37,15 @@ public class PostController {
         PostEntity post = postEntityService.getPostById(postId);
         if (post != null) {
             return ResponseEntity.ok(post);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping
+    public ResponseEntity<List<PostEntity>> getAllPosts(){
+        List<PostEntity> allPosts = postEntityService.getAllPosts();
+        if (allPosts != null){
+            return ResponseEntity.ok(allPosts);
         }
         return ResponseEntity.notFound().build();
     }

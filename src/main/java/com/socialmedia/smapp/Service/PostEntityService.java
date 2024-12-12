@@ -5,6 +5,8 @@ import com.socialmedia.smapp.Entities.PostEntity;
 import com.socialmedia.smapp.Repository.PostEntityRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PostEntityService {
 
@@ -25,6 +27,10 @@ public class PostEntityService {
     public PostEntity commentOnPost(CommentEntity comment,PostEntity post) {
         post.addComment(comment);
         return postEntityRepository.save(post);
+    }
+
+    public List<PostEntity> getAllPosts(){
+        return postEntityRepository.findAll();
     }
 
 }
