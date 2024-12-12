@@ -7,6 +7,9 @@ import com.socialmedia.smapp.Service.PostEntityService;
 import com.socialmedia.smapp.Service.UserEntityService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RequestMapping("user")
 @RestController
@@ -39,7 +42,10 @@ public class UserEntityController {
     }
 
     @PostMapping("{userId}/post")
-    public ResponseEntity<UserEntity> postUserEntity(@PathVariable("userId") int userid, @RequestBody PostEntity postEntity) {
+    public ResponseEntity<UserEntity> postUserEntity(@PathVariable("userId") int userid,@RequestParam String title,           // Extract title from form data
+                                                     @RequestParam String content,         // Extract content from form data
+                                                     @RequestParam String contentType,  @RequestParam MultipartFile file) throws IOException {
+        PostEntity postEntity = postEntityService.convertFileToUrl(title,content,contentType,file);
         PostEntity savedPost = postEntityService.createPost(postEntity);
         UserEntity foundUser = userEntityService.getUserEntityById(userid);
         if (foundUser != null) {
